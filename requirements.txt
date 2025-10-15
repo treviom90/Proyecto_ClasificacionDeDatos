@@ -1,0 +1,16 @@
+pandas
+openpyxl
+xlsxwriter
+git+https://github.com/nolze/msoffcrypto-tool.git
+spectate
+tqdm
+unidecode
+ipython
+scikit-learn
+pyjwt
+office365-rest-python-client
+networkx
+matplotlib
+apache-airflow-providers-standard
+fsspec
+Office365-REST-Python-Client
