@@ -14,3 +14,9 @@ matplotlib
 apache-airflow-providers-standard
 fsspec
 Office365-REST-Python-Client
+tensorflow
+iterative-stratification
+Pillow
+requests
+fastai
+seaborn
