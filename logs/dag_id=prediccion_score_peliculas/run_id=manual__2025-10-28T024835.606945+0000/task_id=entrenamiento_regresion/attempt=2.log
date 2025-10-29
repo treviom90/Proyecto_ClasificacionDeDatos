@@ -1,0 +1,7 @@
+{"timestamp":"2025-10-28T11:49:05.501965Z","level":"info","event":"DAG bundles loaded: dags-folder","logger":"airflow.dag_processing.bundles.manager.DagBundlesManager","filename":"manager.py","lineno":179}
+{"timestamp":"2025-10-28T11:49:05.504201Z","level":"info","event":"Filling up the DagBag from /opt/airflow/dags/movie_poster_pipeline_dag.py","logger":"airflow.models.dagbag.DagBag","filename":"dagbag.py","lineno":593}
+{"timestamp":"2025-10-28T11:49:15.409563Z","level":"warning","event":"The `airflow.decorators.dag` attribute is deprecated. Please use `'airflow.sdk.dag'`.","category":"DeprecatedImportWarning","filename":"/opt/airflow/dags/movie_poster_pipeline_dag.py","lineno":2,"logger":"py.warnings"}
+{"timestamp":"2025-10-28T11:49:15.409776Z","level":"warning","event":"The `airflow.decorators.task` attribute is deprecated. Please use `'airflow.sdk.task'`.","category":"DeprecatedImportWarning","filename":"/opt/airflow/dags/movie_poster_pipeline_dag.py","lineno":2,"logger":"py.warnings"}
+{"timestamp":"2025-10-28T11:49:15.524376Z","level":"warning","event":"`cnn_learner` has been renamed to `vision_learner` -- please update your code","category":"UserWarning","filename":"/home/airflow/.local/lib/python3.12/site-packages/fastai/vision/learner.py","lineno":303,"logger":"py.warnings"}
+{"timestamp":"2025-10-28T11:49:16.174885Z","level":"info","event":"Inicio Entrenamiento regresion","logger":"task.stdout"}
+{"timestamp":"2025-10-28T11:49:16.191303Z","level":"info","event":"█\repoch     train_loss  valid_loss  mae       time","logger":"task.stdout"}

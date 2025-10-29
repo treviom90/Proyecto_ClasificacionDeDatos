@@ -65,8 +65,8 @@ x-airflow-common:
     AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://airflow-apiserver:8080/execution/'
     #AIRFLOW__CORE__XCOM_BACKEND: airflow.providers.common.io.xcom.backend.XComObjectStorageBackend
     AIRFLOW__CORE__XCOM_BACKEND: utils.xcoms_utils.xcoms_backends.PickleXComBackend
-    AIRFLOW_COMMON_IO_XCOM_OBJECTSTORAGE_PATH : file:///opt/airflow/xcoms
-    AIRFLOW_COMMON_IO_XCOM_OBJECTSTORAGE_THRESHOLD: 0
+    AIRFLOW__COMMON_IO__XCOM_OBJECTSTORAGE_PATH: file:///opt/airflow/xcoms
+    AIRFLOW__COMMON_IO__XCOM_OBJECTSTORAGE_THRESHOLD: 0
     # yamllint disable rule:line-length
     # Use simple http server on scheduler for health checks
     # See https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/logging-monitoring/check-health.html#scheduler-health-check-server
@@ -83,12 +83,11 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
-    - ./dags:/opt/airflow/dags
-    - ./logs:/opt/airflow/logs
-    - ./plugins:/opt/airflow/plugins
+    #- ./dags:/opt/airflow/dags
+    #- ./logs:/opt/airflow/logs
+    #- ./plugins:/opt/airflow/plugins
     - ./utils:/opt/airflow/utils
-    - /mnt/c/Users/cecil/Airflow/xcoms:/opt/airflow/xcoms
-    # - /mnt/c/Users/cecil/Airflow/utils:/opt/airflow/utils
+    - ./xcoms:/opt/airflow/xcoms
     - /mnt/c/Users/cecil/ClasificacionDeDatos:/opt/airflow/ClasificacionDeDatos
 
   user: "${AIRFLOW_UID:-50000}:0"
