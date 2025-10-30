@@ -83,9 +83,6 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
-    #- ./dags:/opt/airflow/dags
-    #- ./logs:/opt/airflow/logs
-    #- ./plugins:/opt/airflow/plugins
     - ./utils:/opt/airflow/utils
     - ./xcoms:/opt/airflow/xcoms
     - /mnt/c/Users/cecil/ClasificacionDeDatos:/opt/airflow/ClasificacionDeDatos
