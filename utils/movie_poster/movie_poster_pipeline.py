@@ -424,3 +424,92 @@ def validate_label_coverage(
         "without_label": len(missing),
         "some_missing_examples": missing[:5]
     }
+
+# =============================================
+# RESUMEN: TEST1..TEST10 → SCORE + GÉNERO
+# =============================================
+def resumen_tests_score_genre(
+    images_dir: Union[str, Path],
+    score_model_pkl: Union[str, Path],
+    genre_model_pkl: Union[str, Path],
+    out_csv: Union[str, Path],
+    seed: int = 42,
+    force_cpu: bool = True,
+    thresh: float = 0.5
+) -> str:
+    """
+    Busca imágenes llamadas test1..test10 (cualquier extensión) en images_dir
+    y genera un CSV con:
+      - file          : ruta completa del archivo
+      - name          : nombre base (test1, test2, ...)
+      - score_label   : score predicho por el modelo de score
+      - genre_labels  : géneros predichos por el modelo de género
+    No agrega columnas de error.
+    """
+    _configure_runtime(seed=seed)
+
+    # Carga de modelos
+    learn_score = load_learner(score_model_pkl, cpu=force_cpu)
+    learn_genre = load_learner(genre_model_pkl, cpu=force_cpu)
+
+    images_dir = Path(images_dir)
+    wanted_names = {f"test{i}" for i in range(1, 11)}
+
+    # Filtrar solo test1..test10 por "stem" (nombre sin extensión)
+    all_imgs = get_image_files(images_dir)
+    files = [p for p in all_imgs if p.stem in wanted_names]
+
+    if not files:
+        raise RuntimeError(
+            f"No se encontraron imágenes test1..test10 en {images_dir}. "
+            "Asegúrate de que los archivos se llamen, por ejemplo, test1.jpg, test2.png, etc."
+        )
+
+    # Info del modelo de género
+    try:
+        classes = list(learn_genre.dls.vocab)
+    except Exception:
+        classes = [str(c) for c in getattr(learn_genre.dls, 'vocab', [])]
+    is_multi = not hasattr(learn_genre.dls.vocab, 'o2i')
+
+    rows = []
+    for p in sorted(files, key=lambda x: x.stem):
+        row = {
+            "file": str(p),
+            "name": p.stem,
+            "score_label": "",
+            "genre_labels": ""
+        }
+
+        # --- Predicción de SCORE ---
+        try:
+            pred_class_s, pred_idx_s, probs_s = learn_score.predict(p)
+            row["score_label"] = str(pred_class_s)
+        except Exception:
+            # Si falla, dejamos score_label vacío
+            pass
+
+        # --- Predicción de GÉNERO ---
+        try:
+            pred_g = learn_genre.predict(p)
+            if is_multi:
+                probs_tensor = pred_g[2]
+                if isinstance(probs_tensor, Tensor):
+                    probs = torch.sigmoid(probs_tensor).detach().cpu().numpy().tolist()
+                else:
+                    probs = list(map(float, probs_tensor))
+                chosen = [classes[i] for i, pr in enumerate(probs) if pr >= thresh]
+                row["genre_labels"] = "|".join(chosen) if chosen else ""
+            else:
+                pred_class_g = pred_g[0]
+                row["genre_labels"] = str(pred_class_g)
+        except Exception:
+            # Si falla, dejamos genre_labels vacío
+            pass
+
+        rows.append(row)
+
+    return _write_csv(rows, out_csv)
+
+
+

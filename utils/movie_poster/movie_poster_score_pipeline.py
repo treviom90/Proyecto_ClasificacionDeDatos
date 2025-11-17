@@ -86,9 +86,6 @@ class SaveEveryEpoch(Callback):
 # =========================
 # ENTRENAMIENTO CLASIFICACIÓN
 # =========================
-# =========================
-# ENTRENAMIENTO CLASIFICACIÓN (parche anti-PicklingError)
-# =========================
 def learner_clases_train(
     path_img: Union[str, Path],
     out_dir: Union[str, Path],
@@ -117,7 +114,7 @@ def learner_clases_train(
     learn_class.fit_one_cycle(epochs, lr_max=lr)
     print("Fin Entrenamiento clasificacion")
 
-    # --- 🔧 NUEVO: limpiar callbacks y handles antes de exportar ---
+    # --- NUEVO: limpiar callbacks y handles antes de exportar ---
     # 1) Cerrar posibles file handles (CSVLogger, etc.)
     for cb in list(learn_class.cbs):
         # algunos loggers tienen atributos tipo "file", "f", "fh", "writer"
@@ -187,9 +184,9 @@ def carga_imagenes_a_csv(
     for p in files:
         try:
             pred_class, pred_idx, probs = learn.predict(p)
-            prob = float(probs[pred_idx]) if probs is not None else None
-            rows.append({"file": str(p), "label": str(pred_class), "prob": prob})
+            #prob = float(probs[pred_idx]) if probs is not None else None
+            rows.append({"file": str(p), "label": str(pred_class)}) #, "prob": prob
         except Exception as e:
-            rows.append({"file": str(p), "label": None, "prob": None, "error": str(e)})
+            rows.append({"file": str(p), "label": None}) #, "prob": None, "error": str(e)
 
     return _write_csv(rows, out_csv)
