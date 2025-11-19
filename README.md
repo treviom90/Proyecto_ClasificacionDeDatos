@@ -1,4 +1,6 @@
 ﻿# Proyecto_ClasificacionDeDatos
+ 
+Este proyecto busca demostrar cómo, a partir únicamente de la imagen de un póster de película, es posible predecir automáticamente tanto su score aproximado tipo IMDb como los géneros cinematográficos a los que pertenece. Todo esto se construye mediante un modelo de visión computacional entrenado con FastAI y un pipeline completamente automatizado en Airflow.
 
 # Explicación del modelo y metodología
 
@@ -51,3 +53,4 @@ Ambos archivos se combinan en uno final llamado `predicciones_finales.csv`, que 
 # Conclusión técnica
 
 Este proyecto demuestra cómo FastAI permite entrenar fácilmente modelos de visión profunda para resolver tanto problemas de clasificación multiclase (score) como multilabel (género). La integración con Airflow permite convertir este flujo en un pipeline automatizado, reproducible, escalable y listo para producción. El resultado es un sistema completo capaz de transformar datos visuales en metadatos estructurados útiles para análisis, recomendación y enriquecimiento de información cinematográfica.
+
